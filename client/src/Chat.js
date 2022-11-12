@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
+import Mp3 from "./sounds/button.mp3";
+
+<audio id="new-message" src="./sounds/new.wav" preload="auto"></audio>;
+<audio id="eee" src="./sounds/sent.wav.wav" preload="auto"></audio>;
+<audio
+  id="sent"
+  src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+></audio>;
 
 function Chat({ socket, username, room }) {
+  const audioRef = React.createRef();
+  const handleKeydown = (event) => {
+    if (event.repeat) {
+      return;
+    }
+    audioRef.current.play();
+  };
+
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -31,8 +47,10 @@ function Chat({ socket, username, room }) {
 
   return (
     <div className="chat-window">
+      <audio src={Mp3} ref={audioRef} />
+
       <div className="chat-header">
-        <p>Live Chat</p>
+        <p>Live Chat in Room: {room}</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
@@ -47,8 +65,11 @@ function Chat({ socket, username, room }) {
                     <p>{messageContent.message}</p>
                   </div>
                   <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
                     <p id="author">{messageContent.author}</p>
+                    <p id="time">
+                      &nbsp;
+                      {messageContent.time}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -60,7 +81,7 @@ function Chat({ socket, username, room }) {
         <input
           type="text"
           value={currentMessage}
-          placeholder="Hey..."
+          placeholder="Digite sua mensagem..."
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
@@ -68,7 +89,8 @@ function Chat({ socket, username, room }) {
             event.key === "Enter" && sendMessage();
           }}
         />
-        <button onClick={sendMessage}>&#9658;</button>
+
+        <button onClick={sendMessage}>&#10148;</button>
       </div>
     </div>
   );
