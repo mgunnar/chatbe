@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "localhost:3000",
+    origin: "https://chatbe-smc7.vercel.app:3000",
     methods: ["GET", "POST"],
   },
 });
